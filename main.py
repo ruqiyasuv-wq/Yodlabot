@@ -5,7 +5,7 @@ import os
 
 # .env faylni yuklash
 load_dotenv()
-TOKEN = os.getenv("TOKEN")
+TOKEN = os.getenv("8142593958:AAFt9U9ayRmzL4iZSo_-1LYgMaPSBMww5Eg")
 
 ADMINS = [6736873215]
 
