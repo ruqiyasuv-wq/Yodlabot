@@ -4,7 +4,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.utils.executor import start_webhook
 
 # ===== ENV dan oling =====
-TOKEN = os.getenv("TOKEN")
+TOKEN = os.getenv("8142593958:AAFt9U9ayRmzL4iZSo_-1LYgMaPSBMww5Eg")
 ADMINS = list(map(int, os.getenv("ADMINS").split(",")))
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 
