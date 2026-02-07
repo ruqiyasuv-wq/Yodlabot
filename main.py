@@ -1,9 +1,9 @@
-import json
 import os
+import json
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils.executor import start_webhook
 
-# ====== ENV dan olish ======
+# ===== ENV dan oling =====
 TOKEN = os.getenv("TOKEN")
 ADMINS = list(map(int, os.getenv("ADMINS").split(",")))
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
@@ -13,26 +13,25 @@ dp = Dispatcher(bot)
 
 USERS_FILE = "users.json"
 
-# ====== Foydalanuvchilarni yuklash ======
+# ===== Foydalanuvchilarni yuklash =====
 try:
     with open(USERS_FILE, "r") as f:
         USERS = set(json.load(f))
 except FileNotFoundError:
     USERS = set()
 
-# ====== Foydalanuvchi xabar yuborsa, ID saqlash ======
+# ===== Foydalanuvchi yozsa ID saqlash =====
 @dp.message_handler()
 async def save_users(message: types.Message):
     USERS.add(message.from_user.id)
     with open(USERS_FILE, "w") as f:
         json.dump(list(USERS), f)
 
-# ====== Admin /broadcast ======
+# ===== Admin: /broadcast =====
 @dp.message_handler(commands=['broadcast'], user_id=ADMINS)
 async def broadcast_start(message: types.Message):
-    await message.reply("📢 Broadcast uchun xabar yuboring (matn, rasm yoki fayl yuborishingiz mumkin):")
+    await message.reply("📢 Broadcast xabar yuboring:")
 
-# ====== Admin xabarini barcha foydalanuvchilarga yuborish ======
 @dp.message_handler(user_id=ADMINS, content_types=types.ContentType.ANY)
 async def broadcast_send(message: types.Message):
     success, failed = 0, 0
@@ -49,12 +48,12 @@ async def broadcast_send(message: types.Message):
             failed += 1
     await message.reply(f"✅ Yuborildi: {success}\n❌ Xatolik: {failed}")
 
-# ====== Admin /stats ======
+# ===== Admin: /stats =====
 @dp.message_handler(commands=['stats'], user_id=ADMINS)
 async def stats(message: types.Message):
     await message.reply(f"👥 Foydalanuvchilar soni: {len(USERS)}")
 
-# ====== Webhook setup ======
+# ===== Webhook setup =====
 WEBAPP_HOST = "0.0.0.0"
 WEBAPP_PORT = int(os.environ.get("PORT", 5000))
 WEBHOOK_PATH = f"/{TOKEN}/"
